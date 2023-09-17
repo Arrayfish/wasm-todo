@@ -11,18 +11,18 @@ pub struct Todo {
 }
 
 impl Todo{
-    pub fn new(id: u32, title: String, completed: bool) -> Self {
+    pub fn new(id: u32, title: &String) -> Self {
         Self {
             id,
-            title,
-            completed,
+            title: title.clone(),
+            completed: false,
         }
     }
 }
 
 #[wasm_bindgen]
 impl Todo{
-    pub fn id(&self) -> u32 {
+    pub fn id(&self) ->u32{
         self.id
     }
 
@@ -45,28 +45,34 @@ pub struct TodoList {
 }
 
 #[wasm_bindgen]
-impl TodoList{
+impl TodoList {
     pub fn new() -> Self {
         Self {
             todos: Vec::new(),
         }
     }
 
-    pub fn add(&mut self, title: String) {
-        let id = self.todos.len() as u32;
-        let todo = Todo::new(id,title, false);
+    pub fn add(&mut self, todo_title: String) {
+        let id = self.get_id();
+        let todo = Todo::new(id, &todo_title);
         self.todos.push(todo);
     }
 
-    pub fn get(&self, id: u32) -> Option<Todo> {
-        self.todos.get(id as usize).cloned()
+    pub fn get(&self, id: u32) -> Option<Todo>{
+        self.todos.iter().find(|todo| todo.id() == id).cloned()
     }
 
     pub fn remove(&mut self, id: u32) {
-        self.todos.remove(id as usize);
+        self.todos.retain(|todo| todo.id() != id);
     }
 
-    pub fn todos(&self) -> *const Todo {
-        self.todos.as_ptr()
+    pub fn len(&self) -> u32 {
+        self.todos.len() as u32
+    }
+}
+
+impl TodoList{
+    fn get_id(&self) -> u32 {
+        self.todos.len() as u32
     }
 }

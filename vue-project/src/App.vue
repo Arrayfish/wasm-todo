@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+// import TheWelcome from './components/TheWelcome.vue'
+import WasmTodo from './components/WasmTodo.vue'
 </script>
 
 <template>
@@ -13,7 +14,11 @@ import TheWelcome from './components/TheWelcome.vue'
   </header>
 
   <main>
-    <TheWelcome />
+    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <Suspense>
+      <WasmTodo />
+      <!-- <TestCom /> -->
+    </Suspense>
   </main>
 </template>
 
