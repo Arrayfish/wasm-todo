@@ -28,6 +28,13 @@ const add_todo = () => {
   is_checked_list.value.push(false)
   new_todo.value = ""
 }
+
+const remove_todo = (idx: number) => {
+  console.log("remove", idx)
+  todoList.remove_by_index(idx)
+  len.value = todoList.len()
+  is_checked_list.value.splice(idx, 1)
+}
 </script>
 
 <template>
@@ -37,6 +44,6 @@ const add_todo = () => {
   <div v-for="idx in len" :key="idx">
     <input type="checkbox"  v-model="is_checked_list[idx-1]" @change="toggle_todo(idx-1, is_checked_list[idx-1])" />
     {{ todoList.get_by_index(idx - 1)?.title() }}
-    <button @click="todoList.remove(idx - 1)">Remove</button>
+    <button @click="remove_todo(idx-1)">Remove</button>
   </div>
 </template>

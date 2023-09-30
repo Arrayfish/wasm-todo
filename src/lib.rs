@@ -74,6 +74,10 @@ impl TodoList {
         self.todos.retain(|todo| todo.id() != id);
     }
 
+    pub fn remove_by_index(&mut self, index: usize) {
+        self.todos.remove(index);
+    }
+
     pub fn len(&self) -> u32 {
         self.todos.len() as u32
     }
